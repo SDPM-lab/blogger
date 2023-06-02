@@ -1,0 +1,127 @@
+#-------------------------
+# Operating Specific Junk Files
+#-------------------------
+
+# OS X
+app/.DS_Store
+app/.AppleDouble
+app/.LSOverride
+
+# OS X Thumbnails
+app/._*
+
+# Windows image file caches
+app/Thumbs.db
+app/ehthumbs.db
+app/Desktop.ini
+
+# Recycle Bin used on file shares
+app/$RECYCLE.BIN/
+
+# Windows Installer files
+app/*.cab
+app/*.msi
+app/*.msm
+app/*.msp
+
+# Windows shortcuts
+app/*.lnk
+
+# Linux
+app/*~
+
+# KDE directory preferences
+app/.directory
+
+# Linux trash folder which might appear on any partition or disk
+app/.Trash-*
+
+#-------------------------
+# Environment Files
+#-------------------------
+# These should never be under version control,
+# as it poses a security risk.
+app/.env
+app/.vagrant
+app/Vagrantfile
+
+#-------------------------
+# Temporary Files
+#-------------------------
+app/writable/cache/*
+!app/writable/cache/index.html
+
+app/writable/logs/*
+!app/writable/logs/index.html
+
+app/writable/session/*
+!app/writable/session/index.html
+
+app/writable/uploads/*
+!app/writable/uploads/index.html
+
+app/writable/debugbar/*
+
+app/php_errors.log
+
+#-------------------------
+# User Guide Temp Files
+#-------------------------
+app/user_guide_src/build/*
+app/user_guide_src/cilexer/build/*
+app/user_guide_src/cilexer/dist/*
+app/user_guide_src/cilexer/pycilexer.egg-info/*
+
+#-------------------------
+# Test Files
+#-------------------------
+app/tests/coverage*
+
+# Don't save phpunit under version control.
+app/phpunit
+
+#-------------------------
+# Composer
+#-------------------------
+app/vendor/
+
+#-------------------------
+# IDE / Development Files
+#-------------------------
+
+# Modules Testing
+app/_modules/*
+
+# phpenv local config
+app/.php-version
+
+# Jetbrains editors (PHPStorm, etc)
+app/.idea/
+app/*.iml
+
+# Netbeans
+app/nbproject/
+app/build/
+app/nbbuild/
+app/dist/
+app/nbdist/
+app/nbactions.xml
+app/nb-configuration.xml
+app/.nb-gradle/
+
+# Sublime Text
+app/*.tmlanguage.cache
+app/*.tmPreferences.cache
+app/*.stTheme.cache
+app/*.sublime-workspace
+app/*.sublime-project
+app/.phpintel
+app//api/
+
+# Visual Studio Code
+app/.vscode/
+
+app//results/
+app//phpunit*.xml
+app//.phpunit.*.cache
+
