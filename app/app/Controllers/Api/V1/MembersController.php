@@ -2,6 +2,9 @@
 
 namespace App\Controllers\Api\V1;
 
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\V1\MembersModel;
@@ -28,30 +31,45 @@ class MembersController extends BaseController
      *
      * @return void
      */
-    public function doLogin()
+    public function signIn()
     {
         // Get login data from request.
         $loginData = $this->request->getJSON();
-        $account   = $loginData["account"];
-        $password  = $loginData["password"];
+
+        $account   = $loginData->account ?? null;
+        $password  = $loginData->password ?? null;
+
+        // Check if account and password is correct.
+        if ($account === null || $password === null) {
+            return $this->fail("Sign in data is not found.", 404);
+        }
+
+        if ($account === " " || $password === " ") {
+            return $this->fail("Sign in data is not found.", 404);
+        }
         
         // Check if account and password is correct.
         $userData = $this->membersModel->where([
-            "account"  => $account,
-            "password" => sha1($password),
+            "m_account"  => $account,
+            "m_password" => sha1($password),
         ])->first();
 
         // If not, return fail response.
         if ($userData === null) {
-            return $this->failNotFound("Login fail.");
+            return $this->fail("Login fail.", 403);
         } else {
-            // Remove password in $userData array and store in session.
-            unset($userData["password"]);
-            
+            // Re-define $userData array data to store into session.
+            $userData = [
+                'account' => $userData["m_account"],
+                'name'    => $userData["m_name"],
+                'key'     => $userData["m_key"]
+            ];
+
             $this->session->set("user", $userData);
 
             return $this->respond([
-                "msg" => "Loin success."
+                "msg"  => "Loin success.",
+                "data" => $userData,
             ]);
         }
     }
@@ -61,19 +79,28 @@ class MembersController extends BaseController
      *
      * @return void
      */
-    public function signup()
+    public function signUp()
     {
         // Get signup data from request.
         $signupData = $this->request->getJSON();
         $account    = $signupData["account"];
         $password   = $signupData["password"];
         $name       = $signupData["name"];
+
+        // Check if account and password is correct.
+        if ($account === null || $password === null || $name === null) {
+            return $this->fail("Sign in data is not found.", 404);
+        }
+
+        if ($account === " " || $password === " " || $name === " ") {
+            return $this->fail("Sign in data is not found.", 404);
+        }
         
         //Insert data to database.
         $userData = $this->membersModel->insert([
-            "account"  => $account,
-            "password" => sha1($password),
-            "name"     => $name,
+            "m_account"  => $account,
+            "m_password" => sha1($password),
+            "m_name"     => $name,
             "created"  => date("Y-m-d H:i:s"),
             "updated"  => date("Y-m-d H:i:s"),
         ]);
@@ -96,7 +123,7 @@ class MembersController extends BaseController
     public function logout()
     {
         //Destroy session and redirect to login page.
-        $this->session->destroy();
+        $this->session->destroy("user");
 
         return redirect()->to(base_url("/"));
     }
