@@ -13,7 +13,7 @@ Command: `docker-compose up`
 Command: `docker-compose exec ci4_service composer install`
 
 ### 3. Copy the `env` file to `.env` file and modify it.
-From
+From `env` file
 ```
 # database.default.hostname = localhost
 # database.default.database = ci4
@@ -24,7 +24,7 @@ From
 # database.default.port = 3306
 ```
 
-To
+To `.env` file
 ```
 database.default.hostname = ci4_DB
 database.default.database = example
@@ -40,6 +40,7 @@ Command: `docker-compose exec ci4_service php spark migrate`
 
 ### 5. Database seed the default data.
 Command: `docker-compose exec ci4_service php spark db:seed Members`
+
 Command: `docker-compose exec ci4_service php spark db:seed TodoLists`
 
 ### 6. Enjoy
