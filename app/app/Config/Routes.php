@@ -36,7 +36,7 @@ $routes->set404Override();
 // Handle the page render routing.
 $routes->get('/', 'RenderView\V1\MembersViewController::loginPage');
 $routes->get('/signIn', 'RenderView\V1\MembersViewController::loginPage');
-$routes->get('/signUp', 'RenderView\V1\MembersViewController::signUpPage');
+$routes->get('/signUp', 'RenderView\V1\MembersViewController::registerPage');
 $routes->get('/todoList', 'RenderView\V1\TodoListViewController::todoListPage', ['filter' => 'ViewAuthFilter']);
 $routes->get(
     '/todoList/getDataTable',

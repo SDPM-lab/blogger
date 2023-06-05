@@ -44,6 +44,13 @@ abstract class BaseController extends Controller
     protected $session;
 
     /**
+     * The user data from the session.
+     *
+     * @var array|null
+     */
+    protected ?array $userData = null;
+
+    /**
      * Constructor.
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -54,5 +61,7 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         $this->session = \Config\Services::session();
+
+        $this->userData = $this->session->get('user');
     }
 }

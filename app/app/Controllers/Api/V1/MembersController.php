@@ -83,17 +83,21 @@ class MembersController extends BaseController
     {
         // Get signup data from request.
         $signupData = $this->request->getJSON();
-        $account    = $signupData["account"];
-        $password   = $signupData["password"];
-        $name       = $signupData["name"];
+        $account    = $signupData->account  ?? null;
+        $password   = $signupData->password ?? null;
+        $name       = $signupData->name     ?? null;
 
         // Check if account and password is correct.
         if ($account === null || $password === null || $name === null) {
-            return $this->fail("Sign in data is not found.", 404);
+            return $this->fail("Sign up data is not found.", 404);
         }
 
         if ($account === " " || $password === " " || $name === " ") {
-            return $this->fail("Sign in data is not found.", 404);
+            return $this->fail("Sign up data is not found.", 404);
+        }
+
+        if ($this->membersModel->where(["m_account" => $account])->first() !== null) {
+            return $this->fail("Account already exists.", 403);
         }
         
         //Insert data to database.
@@ -110,7 +114,11 @@ class MembersController extends BaseController
             return $this->fail("Signup fail.");
         } else {
             return $this->respond([
-                "msg" => "Signup success.",
+                "msg"  => "Signup success.",
+                "data" => [
+                    "account" => $account,
+                    "name"    => $name,
+                ]
             ]);
         }
     }

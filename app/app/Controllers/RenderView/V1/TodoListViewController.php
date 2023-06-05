@@ -13,11 +13,25 @@ class TodoListViewController extends BaseController
         $this->session = \Config\Services::session();
     }
 
+    /**
+     * Load the todo list page.
+     *
+     * @return void
+     */
     public function todoListPage()
     {
-        return view('messageBoard/messageBoardOrm');
+        $data = [
+            'name' => $this->session->get("user")['name'],
+        ];
+
+        return view('TodoList/TodoList', $data);
     }
 
+    /**
+     * Get page use datatable.
+     *
+     * @return void
+     */
     public function getDatatableData()
     {
         $table = new TablesIgniter();
@@ -41,13 +55,18 @@ class TodoListViewController extends BaseController
         return $table->getDatatable();
     }
 
+    /**
+     * Get the datatable used button.
+     *
+     * @return void
+     */
     public function getDataTableActionButton()
     {
         $closureFunction = function ($row) {
             $key = $row["t_key"];
             return <<<EOF
-                <button class="btn btn-outline-info" onclick="getModifyMessage('{$key}')"  data-toggle="modal" data-target="#modifyModal">Modify</button>
-                <button class="btn btn-outline-danger" onclick="deleteMessage('{$key}')">Delete</button>
+                <button class="btn btn-outline-info" onclick="todoComponent.show('{$key}')"  data-toggle="modal" data-target="#modifyModal">Modify</button>
+                <button class="btn btn-outline-danger" onclick="todoComponent.delete('{$key}')">Delete</button>
             EOF;
         };
         return $closureFunction;

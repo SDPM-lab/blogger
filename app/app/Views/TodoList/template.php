@@ -1,4 +1,4 @@
-<?= $this->include("messageboard/basic/head") ?>
+<?= $this->include("TodoList/basic/head") ?>
 
 <body>
     <!-- Page Container -->
@@ -518,11 +518,11 @@
                 Adding 'smini-visible-block' to an element will show it (display: block) only when the sidebar is in mini mode
             -->
 
-        <?= $this->include("messageboard/basic/nav") ?>
+        <?= $this->include("TodoList/basic/nav") ?>
         <!-- END Sidebar -->
 
         <!-- Header -->
-        <?= $this->include("messageboard/basic/header") ?>
+        <?= $this->include("TodoList/basic/header") ?>
         <!-- END Header -->
 
         <!-- Main Container -->
@@ -532,11 +532,11 @@
             <div class="bg-body-light">
                 <div class="content content-full">
                     <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">todoList</h1>
+                        <h1 class="flex-sm-fill font-size-h2 font-w400 mt-2 mb-0 mb-sm-2">TodoList</h1>
                         <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item">todoList</li>
-                                <li class="breadcrumb-item active" aria-current="page">todoList</li>
+                                <li class="breadcrumb-item">TodoList</li>
+                                <li class="breadcrumb-item active" aria-current="page">TodoList</li>
                             </ol>
                         </nav>
                     </div>
@@ -553,7 +553,7 @@
         <!-- END Main Container -->
 
         <!-- Footer -->
-        <?= $this->include("messageboard/basic/footer") ?>
+        <?= $this->include("TodoList/basic/footer") ?>
         <!-- END Footer -->
     </div>
     <!-- END Page Container -->

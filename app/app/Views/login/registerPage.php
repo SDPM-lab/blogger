@@ -103,14 +103,24 @@
                                     <a class="link-fx font-w700 font-size-h1" href="index.html">
                                         <span class="text-dark">CodeIgniter</span><span class="text-primary">教學</span>
                                     </a>
-                                    <p class="text-uppercase font-w700 font-size-sm text-muted">登入</p>
+                                    <p class="text-uppercase font-w700 font-size-sm text-muted">註冊</p>
                                 </div>
                                 <!-- END Header -->
 
                                 <!-- Sign In Form -->
                                 <!-- jQuery Validation (.js-validation-signin class is initialized in js/pages/op_auth_signin.min.js which was auto compiled from _js/pages/op_auth_signin.js) -->
                                 <!-- For more info and examples you can check out https://github.com/jzaefferer/jquery-validation -->
-                                <form class="js-validation-signin" id="loginForm">
+                                <form class="js-validation-signin" id="registerForm">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="名稱">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-user-circle"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="account" name="account" placeholder="帳號">
@@ -131,18 +141,28 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" id="rePassword" name="rePassword" placeholder="重新輸入密碼">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-asterisk"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group d-sm-flex justify-content-sm-between align-items-sm-center text-center text-sm-left">
                                         <div class="custom-control custom-checkbox custom-control-primary">
                                             <input type="checkbox" class="custom-control-input" id="login-remember-me" name="login-remember-me" checked>
                                             <!-- <label class="custom-control-label" for="login-remember-me">Remember Me</label> -->
                                         </div>
                                         <div class="font-w600 font-size-sm py-1">
-                                            <a href="<?= base_url('/signUp')?>">尚未註冊? 點我註冊</a>
+                                            <a href="<?= base_url('/signIn') ?>">已經註冊了? 點我登入</a>
                                         </div>
                                     </div>
                                     <div class="form-group text-center">
-                                        <button type="button" onclick="login.submit()" class="btn btn-hero-primary">
-                                            <i class="fa fa-fw fa-sign-in-alt mr-1"></i>登入
+                                        <button type="button" onclick="register.submit()" class="btn btn-hero-primary">
+                                            <i class="fa fa-fw fa-sign-in-alt mr-1"></i>註冊
                                         </button>
                                     </div>
                                 </form>
@@ -225,30 +245,37 @@
             return obj;
         };
 
-
-        let login = {
-            $formDom: $('#loginForm'),
+        let register = {
+            $formDom: $('#registerForm'),
 
             submit: function() {
                 let data = this.$formDom.getFormObject();
 
-                axios.post('<?= base_url("api/v1/user/login") ?>', JSON.stringify(data))
-                    .then((response) => {
-                        Swal.fire({
-                            icon: 'success',
-                            title: '成功',
-                            text: `${response.data.data.name} 您好，即將為您重新轉跳`
-                        }).then(function(result) {
-                            window.location.reload();
-                        })
+                if ($('#password').val() != $('#rePassword').val()) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '錯誤',
+                        text: '密碼輸入需相同'
                     })
-                    .catch((error) => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: error.response.data.status + ' 錯誤',
-                            text: error.response.data.messages.error
+                } else {
+                    axios.post('<?= base_url("api/v1/user") ?>', JSON.stringify(data))
+                        .then((response) => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '成功',
+                                text: `${response.data.data.name} 您好，即將為您重新轉跳`
+                            }).then(function(result) {
+                                window.location.replace('<?= base_url("/signIn") ?>');
+                            })
                         })
-                    })
+                        .catch((error) => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: error.response.data.status + ' 錯誤',
+                                text: error.response.data.messages.error
+                            })
+                        })
+                }
             }
         }
     </script>
