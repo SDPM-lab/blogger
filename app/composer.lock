@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d648ee3b65e8d352e12e15817702e7cd",
+    "content-hash": "72c383397dc9bfd911363811240fac18",
     "packages": [
         {
             "name": "codeigniter4/framework",
@@ -141,6 +141,51 @@
                 }
             ],
             "time": "2022-10-10T10:11:09+00:00"
+        },
+        {
+            "name": "monken/tablesigniter",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/monkenWu/TablesIgniter.git",
+                "reference": "2012059f08d24ecdb886b24c187da7df3a3653e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/monkenWu/TablesIgniter/zipball/2012059f08d24ecdb886b24c187da7df3a3653e4",
+                "reference": "2012059f08d24ecdb886b24c187da7df3a3653e4",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "monken\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "monkenWu",
+                    "email": "610877102@mail.nknu.edu.tw"
+                }
+            ],
+            "description": "This library will help you use jQuery Datatables based on CodeIgniter4.",
+            "keywords": [
+                "codeigniter",
+                "codeigniter4",
+                "datatables"
+            ],
+            "support": {
+                "issues": "https://github.com/monkenWu/TablesIgniter/issues",
+                "source": "https://github.com/monkenWu/TablesIgniter/tree/v1.2.1"
+            },
+            "time": "2021-05-02T17:02:39+00:00"
         },
         {
             "name": "psr/log",

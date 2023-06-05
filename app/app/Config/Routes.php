@@ -29,7 +29,38 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+// $routes->get('/', 'Home::index');
+
+// Member Routes.
+
+// Handle the page render routing.
+$routes->get('/', 'RenderView\V1\MembersViewController::loginPage');
+$routes->get('/signIn', 'RenderView\V1\MembersViewController::loginPage');
+$routes->get('/signUp', 'RenderView\V1\MembersViewController::registerPage');
+$routes->get('/todoList', 'RenderView\V1\TodoListViewController::todoListPage', ['filter' => 'ViewAuthFilter']);
+$routes->get(
+    '/todoList/getDataTable',
+    'RenderView\V1\TodoListViewController::getDatatableData',
+    ['filter' => 'AuthFilter']
+);
+
+$routes->group('api/v1', static function (\CodeIgniter\Router\RouteCollection $routes) {    
+    // Create a new user.
+    $routes->post('user', 'Api\V1\MembersController::signUp');
+
+    // Read user info.
+    $routes->post('user/login', 'Api\V1\MembersController::signIn');
+    $routes->get('user/logout', 'Api\V1\MembersController::logout');
+
+    // Use Resource function to define the RESTful API.
+    $routes->resource('todo', [
+        'controller'  => 'Api\V1\TodoController',
+        'only'        => ['index', 'show', 'create', 'update', 'delete'],
+        'filter'      => 'AuthFilter',
+        'placeholder' => '(:num)',
+        'todo'        => 1,
+    ]);
+});
 
 /*
  * --------------------------------------------------------------------

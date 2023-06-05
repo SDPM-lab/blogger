@@ -7,16 +7,18 @@ use CodeIgniter\Model;
 class MembersModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'members';
-    protected $primaryKey       = 'id';
+    protected $table            = 'Members';
+    protected $primaryKey       = 'm_key';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'm_account', 'm_password', 'm_name'
+    ];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
