@@ -33,11 +33,13 @@ class AuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $unAuthorizedBody = [
-            "status" => 403,
+            "status" => 401,
             "message" => [
                 "error" => "Forbidden for enter this."
             ]
         ];
+
+        // var_dump(session()->get('user'));
 
         if (session()->get('user') === null) {
             return $this->response->setStatusCode(401, 'Unauthorized')->setJSON($unAuthorizedBody);
