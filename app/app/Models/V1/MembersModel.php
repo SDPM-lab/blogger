@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class MembersModel extends Model
 {
-    protected $DBGroup          = 'default';
+    protected $DBGroup          = USE_DB_GROUP;
     protected $table            = 'Members';
     protected $primaryKey       = 'm_key';
     protected $useAutoIncrement = true;
