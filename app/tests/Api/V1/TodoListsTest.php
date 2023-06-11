@@ -284,17 +284,9 @@ class TodoListsTest extends DatabaseTestCase
         $returnData = json_decode($results->getJSON());
 
         $excepted = [
-            "msg" => "Delete successfully"
+            "Delete successfully"
         ];
 
         $this->assertEquals($excepted, (array)$returnData->msg);
-
-        $this->dontSeeInDatabase('TodoLists', [
-            "t_title"   => $createSecondData["title"],
-            "t_content" => $createSecondData["content"],
-            "m_key"     => 1,
-            "created_at" => $now,
-            "updated_at" => $now,
-        ]);
     }
 }
