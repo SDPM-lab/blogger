@@ -102,9 +102,7 @@ class TodoController extends BaseController
         $createdKey = $this->todoListsModel->insert([
             "t_title"   => $title,
             "t_content" => $content,
-            "m_key"     => $this->userData["key"],
-            "created"   => date("Y-m-d H:i:s"),
-            "updated"   => date("Y-m-d H:i:s"),
+            "m_key"     => $this->userData["key"]
         ]);
 
         // Check if insert successfully.
