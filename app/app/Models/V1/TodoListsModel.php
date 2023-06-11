@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class TodoListsModel extends Model
 {
-    protected $DBGroup          = USE_DB_GROUP;
+    protected $DBGroup          = 'default';
     protected $table            = 'TodoLists';
     protected $primaryKey       = 't_key';
     protected $useAutoIncrement = true;
