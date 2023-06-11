@@ -242,7 +242,7 @@ class TodoListsTest extends DatabaseTestCase
         $this->assertEquals($excepted, (array)$returnData);
     }
 
-    public function FunctionName()
+    public function testDeleteTodoSuccessfully()
     {
         $createData = [
             "title"     => "Example Title",
