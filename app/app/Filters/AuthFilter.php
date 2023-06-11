@@ -39,8 +39,6 @@ class AuthFilter implements FilterInterface
             ]
         ];
 
-        // var_dump(session()->get('user'));
-
         if (session()->get('user') === null) {
             return $this->response->setStatusCode(401, 'Unauthorized')->setJSON($unAuthorizedBody);
         }
