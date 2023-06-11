@@ -33,7 +33,7 @@ class AuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $unAuthorizedBody = [
-            "status" => 401,
+            "status" => 403,
             "message" => [
                 "error" => "Forbidden for enter this."
             ]

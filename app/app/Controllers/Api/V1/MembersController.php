@@ -104,7 +104,9 @@ class MembersController extends BaseController
         $userData = $this->membersModel->insert([
             "m_account"  => $account,
             "m_password" => sha1($password),
-            "m_name"     => $name
+            "m_name"     => $name,
+            "created"  => date("Y-m-d H:i:s"),
+            "updated"  => date("Y-m-d H:i:s"),
         ]);
 
         // If not, return fail response.
