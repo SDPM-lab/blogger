@@ -1,5 +1,5 @@
-# Codeigniter4 exmaple project
-The simple CodeIgniter4 code of TCSE 2023 workshop.
+# Blogger
+The simple CodeIgniter4 project of TCSE 2023 workshop.
 
 ## How to Run
 
