@@ -47,11 +47,11 @@
                         <!-- <span class="nav-main-link-badge badge badge-pill badge-success">3</span> -->
                     </a>
                 </li>
-                <li class="nav-main-heading">TodoList</li>
+                <li class="nav-main-heading">Blog</li>
                 <li class="nav-main-item">
                     <a class="nav-main-link" href="<?= base_url("/todoList") ?>">
                         <i class="nav-main-link-icon fa fa-border-all"></i>
-                        <span class="nav-main-link-name">TodoList</span>
+                        <span class="nav-main-link-name">Blog Management</span>
                     </a>
                 </li>
             </ul>
