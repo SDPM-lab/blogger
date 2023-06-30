@@ -77,10 +77,10 @@ pipeline{
         '''
       }
     }
-    stage('unit testing'){
+    stage('Unit testing'){
       steps{
         sh '''
-           docker-compose exec -T ci4_service sh -c "\vendor\bin\phpunit"
+           docker-compose exec -T ci4_service sh -c "vendor/bin/phpunit"
         '''
       }
     }
