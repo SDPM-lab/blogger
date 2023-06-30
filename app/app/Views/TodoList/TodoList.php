@@ -3,7 +3,7 @@
 <!-- Dynamic Table Full -->
 <div class="block block-rounded">
     <div class="block-header block-header-default">
-        <h3 class="block-title col-9">TodoList</h3>
+        <h3 class="block-title col-9">Blog</h3>
         <div class="col-2" style="text-align:right">
             <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#createMessageModal">Create</button>
         </div>
@@ -32,7 +32,7 @@
         <div class="modal-content">
             <div class="block block-themed block-transparent mb-0">
                 <div class="block-header bg-primary-dark">
-                    <h3 class="block-title">Create a new message</h3>
+                    <h3 class="block-title">Create a new blog</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>

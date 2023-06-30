@@ -101,7 +101,7 @@
                                 <!-- Header -->
                                 <div class="mb-2 text-center">
                                     <a class="link-fx font-w700 font-size-h1" href="index.html">
-                                        <span class="text-dark">CodeIgniter</span><span class="text-primary">教學</span>
+                                        <span class="text-dark">Blogg</span><span class="text-primary">er</span>
                                     </a>
                                     <p class="text-uppercase font-w700 font-size-sm text-muted">註冊</p>
                                 </div>

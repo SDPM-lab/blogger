@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-    <title>Dashmix - Bootstrap 4 Admin Template &amp; UI Framework</title>
+    <title>Blogger</title>
 
     <meta name="description" content="Dashmix - Bootstrap 4 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
     <meta name="author" content="pixelcave">
@@ -101,7 +101,7 @@
                                 <!-- Header -->
                                 <div class="mb-2 text-center">
                                     <a class="link-fx font-w700 font-size-h1" href="index.html">
-                                        <span class="text-dark">CodeIgniter</span><span class="text-primary">教學</span>
+                                        <span class="text-dark">Blogg</span><span class="text-primary">er</span>
                                     </a>
                                     <p class="text-uppercase font-w700 font-size-sm text-muted">登入</p>
                                 </div>
