@@ -1,0 +1,28 @@
+pipeline{
+    agent{
+        node{
+            label 'docker'
+        }
+    }
+    stages{
+        stages('verifu tools'){
+            steps{
+                sh '''
+                    docker version
+                    docker-compose version
+                '''
+            }
+        }
+        
+        stages('sonarqube-scanning'){
+        steps{
+            script{
+                withSonarQubeEnv('SDPM_Sonarqube'){
+                    def scannerHome = tool 'sonarqube-scanner'
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
+    }
+    }
+}
