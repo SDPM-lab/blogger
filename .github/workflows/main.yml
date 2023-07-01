@@ -1,0 +1,14 @@
+on: [push]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: trigger singleJob
+      uses: appleboy/jenkins-action@master
+      with:
+        url: "https://jenkins.sdpmlab.org/"
+        user: "sdpm
+        token: ${{ secrets.TOKEN}}
+        job: "ci4_workshop"
+  
