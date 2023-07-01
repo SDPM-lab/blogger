@@ -29,22 +29,21 @@
 #--------------------------------------------------------------------
 # DATABASE
 #--------------------------------------------------------------------
+database.default.hostname = ci4_DB
+database.default.database = example
+database.default.username = root
+database.default.password = root
+database.default.DBDriver = MySQLi
+database.default.DBPrefix =
+database.default.port = 3306
 
-# database.default.hostname = ci4_DB
-# database.default.database = example
-# database.default.username = root
-# database.default.password = root
-# database.default.DBDriver = MySQLi
-# database.default.DBPrefix =
-# database.default.port = 3306
-
-# database.tests.hostname = ci4_test_DB
-# database.tests.database = example
-# database.tests.username = root
-# database.tests.password = root
-# database.tests.DBDriver = MySQLi
-# database.tests.DBPrefix =
-# database.tests.port = 3306
+database.tests.hostname = ci4_test_DB
+database.tests.database = example
+database.tests.username = root
+database.tests.password = root
+database.tests.DBDriver = MySQLi
+database.tests.DBPrefix =
+database.tests.port = 3306
 
 #--------------------------------------------------------------------
 # CONTENT SECURITY POLICY
