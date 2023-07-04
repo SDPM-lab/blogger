@@ -15,14 +15,14 @@ pipeline{
         }
         
         stages('sonarqube-scanning'){
-        steps{
-            script{
-                withSonarQubeEnv('SDPM_Sonarqube'){
-                    def scannerHome = tool 'sonarqube-scanner'
-                    sh "${scannerHome}/bin/sonar-scanner"
+            steps{
+                script{
+                    withSonarQubeEnv('SDPM_Sonarqube'){
+                        def scannerHome = tool 'sonarqube-scanner'
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
                 }
             }
         }
-    }
     }
 }
