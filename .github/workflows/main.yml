@@ -7,8 +7,8 @@ jobs:
     - name: trigger singleJob
       uses: appleboy/jenkins-action@master
       with:
-        url: "https://jenkins.sdpmlab.org/"
+        url: "http://127.0.0.1:8080/"
         user: "czhuang"
-        token: ${{ secrets.TOKEN}}
-        job: "tcse2023410877023"
+        token: ${{ secrets.TOKEN }}
+        job: "myFstJenkinsPrj"
   
