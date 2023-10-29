@@ -7,27 +7,16 @@ pipeline {
     }
     
     stages {
-        stage('cd') {
+        stage('compsoer install') {
             steps {
-                sh 'cd app/'
+                sh 'cd app/ && composer install'
             }
         }
-        
-        stage('ls') {
-            steps {
-                sh 'ls'
-            }
-        }
-        
-        stage('composer install') {
-            steps {
-                sh 'composer install'
-            }
-        }
+      
         
         stage('Unit Test') {
             steps {
-                sh './vendor/bin/phpunit'
+                sh 'cd app/ && ./vendor/bin/phpunit'
             }
         }
         
