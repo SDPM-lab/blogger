@@ -14,6 +14,11 @@ pipeline {
                 sh 'composer --version'
             }
         }
+        stage('ls') {
+            steps {
+                sh 'ls -al'
+            }
+        }
         stage('move') {
             steps {
                 sh 'cd app/'
