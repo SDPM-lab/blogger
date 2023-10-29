@@ -21,7 +21,7 @@ pipeline {
         }
         stage('move') {
             steps {
-                sh 'cd app/'
+                sh 'cd ./app/app/'
             }
         }
         stage('check state2') {
