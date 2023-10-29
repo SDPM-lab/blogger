@@ -12,10 +12,16 @@ pipeline {
         //         sh './vendor/bin/phpunit'
         //     }
         // }
+        stage('cd') {
+            steps {
+                sh 'cd app/'
+            }
+        }
         stage('ls') {
             steps {
                 sh 'ls'
             }
         }
+        
     }
 }
