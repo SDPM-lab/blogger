@@ -2,24 +2,14 @@ pipeline {
     agent {
         docker {
             image 'webdevops/php-dev:8.1'
-            args '-v $HOME/.app:/app'
+            args '-v $HOME/.app:/app/app'
         }
     }
     
     stages {
-        // stage('Unit Test') {
-        //     steps {
-        //         sh './vendor/bin/phpunit'
-        //     }
-        // }
-        stage('cd') {
+        stage('Unit Test') {
             steps {
-                sh 'cd ./app'
-            }
-        }
-        stage('ls') {
-            steps {
-                sh 'ls'
+                sh './vendor/bin/phpunit'
             }
         }
         
