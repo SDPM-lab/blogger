@@ -14,7 +14,7 @@ pipeline {
                 sh 'composer --version'
             }
         }
-        stage('ls') {
+        stage('check state') {
             steps {
                 sh 'ls -al'
             }
@@ -24,7 +24,7 @@ pipeline {
                 sh 'cd app/'
             }
         }
-        stage('ls') {
+        stage('check state2') {
             steps {
                 sh 'ls -al'
             }
