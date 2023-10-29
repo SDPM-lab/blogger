@@ -1,88 +1,29 @@
-pipeline{
-  agent{
-    node{
-      label 'docker'
+pipeline {
+    agent {
+        docker { image 'webdevops/php-nginx-dev:8.1' }
     }
-  }
-  stages{
-    stage('verify tools'){
-     steps{
-       sh '''
-        docker info
-        docker version
-        docker-compose version
-       '''
-     }  
-    }
-    stage('sq-scanner'){
-      steps{
-        script{
-          withSonarQubeEnv('SDPM_Sonarqube') {
-          
-            // Execute SonarQube scanner
-            def scannerHome = tool 'SonarQube_Scanner'
-            sh "${scannerHome}/bin/sonar-scanner"
-
-          }
+    
+    stages {
+        stage('php version') {
+            steps {
+                sh 'php --version'
+            }
         }
-      }
-    }
-    stage('Clean all Docker containers'){
-      steps{
-        sh '''
-          docker-compose down -v
-          docker system prune -a --volumes -f
-        '''
-      }
-    }
-    stage('Start Container'){
-      steps{
-        sh '''
-           docker-compose up -d
-        '''
-      }
-    }
-    stage('Dependency installation'){
-      steps{
-        sh '''
-           docker-compose exec -T ci4_service sh -c "ls && composer install"
-           docker-compose restart
-        '''
-      }
-    }
-    stage('Environment Setting Up'){
-      steps{
-        script{
-          sh '''
-            cp app/env app/.env
-          '''
+        stage('composer version') {
+            steps {
+                sh 'composer --version'
+            }
         }
-      }
+        stage('move') {
+            steps {
+                sh 'cd app/'
+            }
+        }
+        stage('ls') {
+            steps {
+                sh 'ls -al'
+            }
+        }
+        
     }
-    stage('Database migrate'){
-      steps{
-        sh '''
-           docker-compose exec -T ci4_service sh -c "php spark migrate"
-        '''
-      }
-    }
-    stage('Database seed'){
-      steps{
-        sh '''
-           sleep 2 
-           docker-compose exec -T ci4_service sh -c "php spark migrate"
-           docker-compose exec -T ci4_service sh -c "php spark db:seed Members"
-           docker-compose exec -T ci4_service sh -c "php spark db:seed TodoLists"
-           docker-compose up -d
-        '''
-      }
-    }
-    stage('Unit testing'){
-      steps{
-        sh '''
-           docker-compose exec -T ci4_service sh -c "vendor/bin/phpunit"
-        '''
-      }
-    }
-   }
 }
