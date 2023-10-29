@@ -14,7 +14,7 @@ pipeline {
         // }
         stage('cd') {
             steps {
-                sh 'cd app/'
+                sh 'cd ./app'
             }
         }
         stage('ls') {
