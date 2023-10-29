@@ -4,29 +4,9 @@ pipeline {
     }
     
     stages {
-        stage('php version') {
+        stage('unit test') {
             steps {
-                sh 'php --version'
-            }
-        }
-        stage('composer version') {
-            steps {
-                sh 'composer --version'
-            }
-        }
-        stage('check state') {
-            steps {
-                sh 'ls -al'
-            }
-        }
-        stage('move') {
-            steps {
-                sh 'cd ./app/app/'
-            }
-        }
-        stage('check state2') {
-            steps {
-                sh 'ls -al'
+                sh './app/vendor/bin/phpunit'
             }
         }
         
