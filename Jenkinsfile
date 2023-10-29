@@ -2,9 +2,7 @@ pipeline {
     agent {
         docker {
             image 'webdevops/php-dev:8.1'
-            volumes {
-                hostPath('./app', '/app')
-            }
+            args '-v $HOME/.app:/app'
         }
     }
 
