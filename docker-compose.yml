@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-    ci4_service:
+    blogger_service:
         image: webdevops/php-nginx-dev:8.1
         ports:
             - 8080:80
@@ -14,14 +14,14 @@ services:
             - PHP_UPLOAD_MAX_FILESIZE=20M
         volumes:
             - './app:/app'
-    ci4_DB:
+    blogger_DB:
         image: mysql:5.7
         environment:
             MYSQL_DATABASE: example
             MYSQL_ROOT_PASSWORD: root
         ports:
             - "3306:3306"
-    ci4_test_DB:
+    blogger_test_DB:
         image: mysql:5.7
         environment:
             MYSQL_DATABASE: example
