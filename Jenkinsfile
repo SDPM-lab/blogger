@@ -5,7 +5,13 @@ pipeline {
             args '-v $HOME/.app:/app'
         }
     }
-
+    stages {
+        stage('ls') {
+            steps {
+                sh 'ls'
+            }
+        }
+    }
     stages {
         stage('Unit Test') {
             steps {
