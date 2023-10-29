@@ -5,17 +5,16 @@ pipeline {
             args '-v $HOME/.app:/app'
         }
     }
+    
     stages {
+        // stage('Unit Test') {
+        //     steps {
+        //         sh './vendor/bin/phpunit'
+        //     }
+        // }
         stage('ls') {
             steps {
                 sh 'ls'
-            }
-        }
-    }
-    stages {
-        stage('Unit Test') {
-            steps {
-                sh './vendor/bin/phpunit'
             }
         }
     }
