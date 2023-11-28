@@ -1,5 +1,5 @@
 pipeline {
-    agent nigger2
+    agent any
 
     stages {
         stage('Checkout') {
