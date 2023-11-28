@@ -4,14 +4,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sh 'ls && cd app/ && ls -al'
+                sh 'cd app/ && cp env .env'
 
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'docker-compose up -d && docker-compose exec ci4_service composer install && '
+                sh 'docker-compose up -d && docker-compose exec ci4_service composer install && docker-compose exec ci4_service php spark migrate && docker-compose exec ci4_service php spark db:seed Members && docker-compose exec ci4_service php spark db:seed TodoLists'
             }
         }
     }
