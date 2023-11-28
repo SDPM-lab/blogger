@@ -4,13 +4,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sh 'ls'
+                sh 'ls && cd app/ && ls'
+
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'docker-compose up -d && docker-compose exec ci4_service composer install'
+                sh 'docker-compose up -d && docker-compose exec ci4_service composer install && '
             }
         }
     }
