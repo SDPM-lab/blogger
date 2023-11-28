@@ -1,14 +1,13 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'webdevops/php-dev:8.1'
+            args '-v $HOME/app/app:/app'
+        }
+    }
 
     stages {
         stage('front') {
-            agent {
-                docker {
-                    image 'webdevops/php-dev:8.1'
-                    args '-v $HOME/app/app:/app' // 確保路徑正確
-                }
-            }
             steps {
                 sh 'cd app/ && composer install'
             }
@@ -21,3 +20,4 @@ pipeline {
         }
     }
 }
+
