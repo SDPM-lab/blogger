@@ -24,7 +24,7 @@ pipeline{
     stage('Dependency installation'){
       steps{
         sh '''
-           docker-compose exec -T ci4_service sh -c "ls && composer install"
+           docker-compose exec -T ci4_service sh -c "ls"
            docker-compose restart
         '''
       }
