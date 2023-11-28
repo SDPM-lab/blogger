@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sh 'ls && cd app/ && ls'
+                sh 'ls && cd app/ && ll'
 
             }
         }
