@@ -7,12 +7,18 @@ pipeline {
     }
 
     stages {
-        stage('front') {
+        stage('check tool') {
             steps {
-                sh 'cd app/ && composer install'
+                sh 'docker-compose --version'
             }
         }
-        
+
+        stage('Run the project') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+
         stage('Unit Test') {
             steps {
                 sh 'cd app/ && ./vendor/bin/phpunit'
