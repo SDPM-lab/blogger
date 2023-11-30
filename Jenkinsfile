@@ -59,14 +59,14 @@ pipeline{
     stage('Unit testing'){
       steps{
         sh '''
-           docker-compose exec -T ci4_service sh -c "vendor/bin/phpunit --coverage-html reports/"
+           docker-compose exec -T ci4_service sh -c "vendor/bin/phpunit --coverage-xml build/reports/unittest.xml"
         '''
       }
     }
    }
    post {
         always {
-            // 清理，停止所有服務
+            junit 'build/reports/unittest.xml'
             sh 'docker-compose down'
         }
     }
