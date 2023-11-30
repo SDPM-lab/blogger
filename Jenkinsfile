@@ -4,7 +4,17 @@ pipeline{
       label 'ubuntu'
     }
   }
+  options {
+      // This is required if you want to clean before build
+      skipDefaultCheckout(true)
+  }
   stages{
+    stage('clean old DOCs & chekcout SCM'){
+      steps{
+        cleanWs()
+        checkout scm
+      }
+    }
     stage('verify tools'){
      steps{
        sh '''
