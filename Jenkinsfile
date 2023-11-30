@@ -75,7 +75,7 @@ pipeline{
       post {
         always {
           junit '${WORKSPACE}/build/logs/blogger_unitTest.xml'
-          sh 'docker-compose -f /path/to/your/docker-compose.yml down'
+          sh 'docker-compose -f docker-compose down'
         }
       }
     }
