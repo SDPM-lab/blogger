@@ -34,7 +34,7 @@ pipeline{
     stage('Dependency installation'){
       steps{
         sh '''
-           docker-compose exec -T ci4_service sh -c "composer install"
+           docker-compose exec -T ci4_service sh -c "ls && composer install"
            docker-compose restart
         '''
       }
@@ -72,12 +72,11 @@ pipeline{
            docker-compose exec -T ci4_service sh -c "vendor/bin/phpunit --coverage-xml build/logs/blogger_unitTest.xml"
         '''
       }
+      post {
+        always {
+          junit 'build/logs/blogger_unitTest.xml'
+        }
+      }
     }
    }
-   post {
-        always {
-            junit 'build/logs/blogger_unitTest.xml'
-            sh 'docker-compose down'
-        }
-    }
 }
