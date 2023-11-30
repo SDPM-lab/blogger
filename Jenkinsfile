@@ -77,7 +77,7 @@ pipeline{
    }
    post {
         always {
-          sh 'docker-compose down -f'
+          sh 'docker-compose down'
         }
       }
 }
