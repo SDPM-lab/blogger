@@ -72,12 +72,12 @@ pipeline{
            docker-compose exec -T ci4_service sh -c "vendor/bin/phpunit --log-junit build/logs/blogger_unitTest.xml"
         '''
       }
-      post {
+      junit 'build/logs/blogger_unitTest.xml'
+    }
+   }
+   post {
         always {
-          junit '${WORKSPACE}/build/logs/blogger_unitTest.xml'
           sh 'docker-compose -f docker-compose down'
         }
       }
-    }
-   }
 }
