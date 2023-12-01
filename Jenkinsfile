@@ -1,15 +1,14 @@
 pipeline{
   agent{
     node{
-      label 'ubuntu'
+      label '611177209'
     }
   }
   options {
-      // This is required if you want to clean before build
       skipDefaultCheckout(true)
   }
   stages{
-    stage('clean old DOCs & chekcout SCM'){
+    stage('Clean old DOCs & chekcout SCM'){
       steps{
         cleanWs()
         checkout scm

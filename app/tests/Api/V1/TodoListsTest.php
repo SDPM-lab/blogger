@@ -244,49 +244,49 @@ class TodoListsTest extends DatabaseTestCase
 
     public function testDeleteTodoSuccessfully()
     {
-        // $createData = [
-        //     "title"     => "Example Title",
-        //     "content"   => "Example Content",
-        // ];
+        $createData = [
+            "title"     => "Example Title",
+            "content"   => "Example Content",
+        ];
 
-        // $todoListsModel = new TodoListsModel();
+        $todoListsModel = new TodoListsModel();
 
-        // $now = date("Y-m-d H:i:s");
+        $now = date("Y-m-d H:i:s");
 
-        // $createdKey = $todoListsModel->insert([
-        //     "t_title"    => $createData["title"],
-        //     "t_content"  => $createData["content"],
-        //     "m_key"      => 1,
-        //     "created_at" => $now,
-        //     "updated_at" => $now,
-        // ]);
+        $createdKey = $todoListsModel->insert([
+            "t_title"    => $createData["title"],
+            "t_content"  => $createData["content"],
+            "m_key"      => 1,
+            "created_at" => $now,
+            "updated_at" => $now,
+        ]);
 
-        // $this->assertEquals(1, $createdKey);
+        $this->assertEquals(1, $createdKey);
 
-        // $createSecondData = [
-        //     "title"     => "Example Title 2",
-        //     "content"   => "Example Content 2",
-        // ];
+        $createSecondData = [
+            "title"     => "Example Title 2",
+            "content"   => "Example Content 2",
+        ];
 
-        // $createdSecondKey = $todoListsModel->insert([
-        //     "t_title"   => $createSecondData["title"],
-        //     "t_content" => $createSecondData["content"],
-        //     "m_key"     => 1,
-        //     "created_at" => $now,
-        //     "updated_at" => $now,
-        // ]);
+        $createdSecondKey = $todoListsModel->insert([
+            "t_title"   => $createSecondData["title"],
+            "t_content" => $createSecondData["content"],
+            "m_key"     => 1,
+            "created_at" => $now,
+            "updated_at" => $now,
+        ]);
 
-        // $this->assertEquals(2, $createdSecondKey);
+        $this->assertEquals(2, $createdSecondKey);
 
-        // $results = $this->withSession($this->sessionData)
-        //                 ->delete("api/v1/todo/2");
+        $results = $this->withSession($this->sessionData)
+                        ->delete("api/v1/todo/2");
 
-        // $returnData = json_decode($results->getJSON());
+        $returnData = json_decode($results->getJSON());
 
-        // $excepted = [
-        //     "Delete successfully"
-        // ];
+        $excepted = [
+            "Delete successfully"
+        ];
 
-        // $this->assertEquals($excepted, (array)$returnData->msg);
+        $this->assertEquals($excepted, (array)$returnData->msg);
     }
 }

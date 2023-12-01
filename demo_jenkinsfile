@@ -1,0 +1,43 @@
+pipeline{
+    agent{
+        node{
+            label '<your_stdID>'
+        }
+    }
+    options{
+        skipDefaultCheckout(true) //如有過去專案，清除
+    }
+
+    stages{
+        stage('Clean old DOCs & Checkout SCM'){
+            cleanWs() //清除舊連線
+            checkout scm //連線 source code management(Github)
+        }
+        stage('<stage_name>'){
+            steps{
+                sh '''
+                 ///把你的指令放在這
+                '''
+            }
+        }
+        .
+        .
+        .
+        *** 注意 stage database seed ***
+        stage('Database seed'){
+            steps{
+                sh '''
+                sleep 2 //讓工作喘一下， mysql 建立資料庫需要一點點的時間
+                .
+                .
+                .
+                '''
+            }
+        }
+    }
+    post{ //pipeline 工作完成後的清理工作
+        always{
+            sh '''docker-compose down'''
+        }
+    }
+}
