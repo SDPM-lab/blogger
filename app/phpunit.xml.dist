@@ -32,9 +32,9 @@
         </testsuite>
     </testsuites>
     <logging>
-        <testdoxHtml outputFile="build/logs/testdox.html"/>
-        <testdoxText outputFile="build/logs/testdox.txt"/>
-        <junit outputFile="build/logs/logfile.xml"/>
+        <testdoxHtml outputFile="build/logs/blogger_unitTest.html"/>
+        <testdoxText outputFile="build/logs/blogger_unitTest.txt"/>
+        <junit outputFile="build/logs/blogger_unitTest.xml"/>
     </logging>
     <php>
         <server name="app.baseURL" value="http://example.com/"/>

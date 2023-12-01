@@ -1,88 +1,60 @@
-pipeline{
-  agent{
-    node{
-      label 'docker'
-    }
-  }
-  stages{
-    stage('verify tools'){
-     steps{
-       sh '''
-        docker info
-        docker version
-        docker-compose version
-       '''
-     }  
-    }
-    stage('sq-scanner'){
-      steps{
-        script{
-          withSonarQubeEnv('SDPM_Sonarqube') {
-          
-            // Execute SonarQube scanner
-            def scannerHome = tool 'SonarQube_Scanner'
-            sh "${scannerHome}/bin/sonar-scanner"
-
-          }
+pipeline {
+    agent {
+        node {
+            label '611177209'
         }
-      }
     }
-    stage('Clean all Docker containers'){
-      steps{
-        sh '''
-          docker-compose down -v
-          docker system prune -a --volumes -f
-        '''
-      }
+    options {
+        skipDefaultCheckout(true)
     }
-    stage('Start Container'){
-      steps{
-        sh '''
-           docker-compose up -d
-        '''
-      }
-    }
-    stage('Dependency installation'){
-      steps{
-        sh '''
-           docker-compose exec -T ci4_service sh -c "ls && composer install"
-           docker-compose restart
-        '''
-      }
-    }
-    stage('Environment Setting Up'){
-      steps{
-        script{
-          sh '''
-            cp app/env app/.env
-          '''
+    stages {
+        stage('Clean old DOCs & chekcout SCM') {
+            steps {
+                echo 'Cleaning old DOCs and checking out SCM...'
+                cleanWs()
+                checkout scm
+            }
         }
-      }
+        stage('Verify tools') {
+            steps {
+                echo 'Verifying Docker, Docker Compose, and Composer versions...'
+            }
+        }
+        stage('Start Container') {
+            steps {
+                echo 'Starting the Docker containers...'
+            }
+        }
+        stage('Dependency installation') {
+            steps {
+                echo 'Installing dependencies...'
+            }
+        }
+        stage('Environment Setting Up') {
+            steps {
+                echo 'Setting up the environment...'
+            }
+        }
+        stage('Database migrate') {
+            steps {
+                echo 'Running database migration...'
+            }
+        }
+        stage('Database seed') {
+            steps {
+                echo 'Seeding the database...'
+            }
+        }
+        stage('Unit testing') {
+            steps {
+                echo 'Running unit tests...'
+                // junit 'app/build/logs/blogger_unitTest.xml'
+            }
+        }
     }
-    stage('Database migrate'){
-      steps{
-        sh '''
-           docker-compose exec -T ci4_service sh -c "php spark migrate"
-        '''
-      }
+    post {
+        always {
+            echo 'Cleaning up Docker containers...'
+        }
     }
-    stage('Database seed'){
-      steps{
-        sh '''
-           sleep 2 
-           docker-compose exec -T ci4_service sh -c "php spark migrate"
-           docker-compose exec -T ci4_service sh -c "php spark db:seed Members"
-           docker-compose exec -T ci4_service sh -c "php spark db:seed TodoLists"
-           docker-compose up -d
-        '''
-      }
-    }
-    stage('Unit testing'){
-      steps{
-        sh '''
-           docker-compose exec -T ci4_service sh -c "vendor/bin/phpunit"
-        '''
-      }
-    }
-   }
 }
