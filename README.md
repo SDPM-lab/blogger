@@ -45,3 +45,11 @@ Command: `docker-compose exec ci4_service php spark db:seed TodoLists`
 
 ### 6. Enjoy
 Enter the `http://localhost:8080/`
+
+## Excute the unit test
+### 0. If you don't install the phpunit before
+Command: `docker-compose exec ci4_service composer require --dev phpunit/phpunit ^9.6`
+
+### 1. Excute the unit test
+Command: `docker-compose exec ci4_service ./vendor/bin/phpunit`
+
