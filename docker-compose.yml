@@ -22,7 +22,7 @@ services:
         ports:
             - "3306:3306"
     ci4_test_DB:
-        image: mysql:5.7
+        image: mysql:5.7611177209-dockerhub
         environment:
             MYSQL_DATABASE: example
             MYSQL_ROOT_PASSWORD: root

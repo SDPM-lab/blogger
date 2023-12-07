@@ -4,6 +4,9 @@ pipeline{
       label '611177209'
     }
   }
+  environment{
+    DOCKERHUB_CREDENTIALS = credentials('611177209-dockerhub')
+  }
   options {
       skipDefaultCheckout(true)
   }
@@ -23,10 +26,24 @@ pipeline{
        '''
      }  
     }
+    stage('Login Dockerhub'){
+      steps{
+        sh '''
+          echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+        '''
+      }
+    }
     stage('Build image for application'){
       steps{
         sh '''
           docker-compose build
+        '''
+      }
+    }
+    stage('Push image to Dockerhub'){
+      steps{
+        sh '''
+          docker push 611177209_ci4_service
         '''
       }
     }
@@ -45,6 +62,7 @@ pipeline{
         '''
       }
     }
+    
     // stage('Dependency installation'){
     //   steps{
     //     sh '''
@@ -95,6 +113,7 @@ pipeline{
           sh '''
           docker-compose down
           docker system prune -a -f
+          docker logout
           '''
         }
       }
