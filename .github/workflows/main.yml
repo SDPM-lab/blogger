@@ -8,6 +8,6 @@ jobs:
       uses: appleboy/jenkins-action@master
       with:
         url: "https://jenkins.sdpmlab.org/"
-        user: "sdpmlab"
+        user: "611177209"
         token: ${{secrets.TOKEN}}
-        job: "bl"
+        job: "611177209"
