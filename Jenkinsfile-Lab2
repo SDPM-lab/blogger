@@ -1,0 +1,60 @@
+pipeline{
+  agent{
+    node{
+      label '611177209'
+    }
+  }
+  environment{
+    DOCKERHUB_CREDENTIALS = credentials('<your_credential_name>')
+  }
+  options {
+      skipDefaultCheckout(true)
+  }
+  stages{
+    stage('Clean old DOCs & chekcout SCM'){
+      steps{
+        cleanWs()
+        checkout scm
+      }
+    }
+    stage('verify tools'){
+     steps{
+       sh '''
+        docker info
+        docker version
+        docker-compose version
+       '''
+     }  
+    }
+    stage('Build image for application'){
+      steps{
+        sh '''
+          docker-compose build
+        '''
+      }
+    }
+    stage('Start Container'){
+      steps{
+        sh '''
+           docker-compose up -d
+        '''
+      }
+    }
+    stage('Check Container'){
+      steps{
+        sh '''
+           docker ps -a
+           docker images
+        '''
+      }
+    }
+   }
+   post {
+        always {
+          sh '''
+          docker-compose down
+          docker system prune -a -f
+          '''
+        }
+      }
+}
