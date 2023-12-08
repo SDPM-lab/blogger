@@ -2,7 +2,7 @@ version: "3"
 
 services:
     ci4_service:
-        build: .
+        image: webdevops/php-nginx-dev:8.1
         ports:
             - 8080:80
         working_dir: /app
