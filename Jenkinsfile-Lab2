@@ -4,9 +4,6 @@ pipeline{
       label '611177209'
     }
   }
-  environment{
-    DOCKERHUB_CREDENTIALS = credentials('<your_credential_name>')
-  }
   options {
       skipDefaultCheckout(true)
   }
