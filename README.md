@@ -36,12 +36,12 @@ database.default.port = 3306
 ```
 
 ### 4. Database Migration.
-Command: `docker-compose exec ci4_service php spark migrate`
+Command: `docker-compose exec blogger_service php spark migrate`
 
 ### 5. Database seed the default data.
-Command: `docker-compose exec ci4_service php spark db:seed Members`
+Command: `docker-compose exec blogger_service php spark db:seed Members`
 
-Command: `docker-compose exec ci4_service php spark db:seed TodoLists`
+Command: `docker-compose exec blogger_service php spark db:seed TodoLists`
 
 ### 6. Enjoy
 Enter the `http://localhost:8080/`
