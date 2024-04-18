@@ -137,7 +137,7 @@
                                             <!-- <label class="custom-control-label" for="login-remember-me">Remember Me</label> -->
                                         </div>
                                         <div class="font-w600 font-size-sm py-1">
-                                            <a href="<?= base_url('/signUp')?>">尚未註冊? 點我註冊</a>
+                                            <a href="<?= base_url('/signUp') ?>">尚未註冊? 點我註冊</a>
                                         </div>
                                     </div>
                                     <div class="form-group text-center">
@@ -243,11 +243,21 @@
                         })
                     })
                     .catch((error) => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: error.response.data.status + ' 錯誤',
-                            text: error.response.data.messages.error
-                        })
+                        console.log(error);
+                        if (error.response.status == 500) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '伺服器錯誤',
+                                text: '伺服器端錯誤，請重新再試或嘗試聯絡系統管理員'
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '登入錯誤',
+                                text: '帳號密碼錯誤，請重新再試'
+                            })
+                        }
+
                     })
             }
         }
