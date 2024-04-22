@@ -51,7 +51,7 @@ class TodoListsTableConstruction extends Migration
     public function down()
     {
         // Drop the foreign key constraint from the TodoLists table first.
-        $this->forge->dropForeignKey('TodoLists', 'm_key');
+        $this->forge->dropForeignKey('TodoLists', 'TodoLists_m_key_foreign');
 
         // Then drop the TodoLists table.
         $this->forge->dropTable('TodoLists');
