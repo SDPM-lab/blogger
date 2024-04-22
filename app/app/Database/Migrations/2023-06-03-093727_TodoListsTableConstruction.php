@@ -4,12 +4,11 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class TodoLists extends Migration
+class TodoListsTableConstruction extends Migration
 {
     public function up()
     {
         $this->forge->addField([
-
             't_key'           => [
                 'type'           => 'INT',
                 'constraint'     => 5,
@@ -51,6 +50,10 @@ class TodoLists extends Migration
 
     public function down()
     {
-        //
+        // Drop the foreign key constraint from the TodoLists table first.
+        $this->forge->dropForeignKey('TodoLists', 'm_key');
+
+        // Then drop the TodoLists table.
+        $this->forge->dropTable('TodoLists');
     }
 }
