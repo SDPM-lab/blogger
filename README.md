@@ -1,5 +1,5 @@
 # Blogger
-The simple CodeIgniter4 project of TCSE 2023 workshop.
+A blog management project based on CodeIgniter4 PHP framework.
 
 ## How to Run
 
@@ -44,4 +44,12 @@ Command: `docker-compose exec blogger_service php spark db:seed MemberAndTodoCon
 Command: `docker-compose exec blogger_service php spark db:seed TodoLists`
 
 ### 6. Enjoy
-Enter the `http://localhost:8080/`
+Visit `http://localhost:8080/`
+
+## Execute the unit test
+### 0. If you did't install the phpunit before
+Command: `docker-compose exec ci4_service composer require --dev phpunit/phpunit ^9.6`
+
+### 1. Execute the unit test
+Command: `docker-compose exec ci4_service ./vendor/bin/phpunit`
+

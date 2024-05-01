@@ -1,9 +1,8 @@
 version: "3"
 
 services:
-    blogger_service:
+    ci4_service:
         image: webdevops/php-nginx-dev:8.1
-        # platform: linux/x86_64
         ports:
             - 8080:80
         working_dir: /app
@@ -17,17 +16,15 @@ services:
             - './app:/app'
     ci4_DB:
         image: mysql:5.7
-        # platform: linux/x86_64
         environment:
-            MYSQL_DATABASE: blogger
+            MYSQL_DATABASE: example
             MYSQL_ROOT_PASSWORD: root
         ports:
             - "3306:3306"
     ci4_test_DB:
         image: mysql:5.7
-        # platform: linux/x86_64
         environment:
-            MYSQL_DATABASE: blogger
+            MYSQL_DATABASE: example
             MYSQL_ROOT_PASSWORD: root
         ports:
             - "3307:3306"

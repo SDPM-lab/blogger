@@ -1,10 +1,22 @@
 pipeline{
   agent{
     node{
-      label 'docker'
+      label '611177209'
     }
   }
+  environment{
+    DOCKERHUB_CREDENTIALS = credentials('611177209-dockerhub')
+  }
+  options {
+      skipDefaultCheckout(true)
+  }
   stages{
+    stage('Clean old DOCs & chekcout SCM'){
+      steps{
+        cleanWs()
+        checkout scm
+      }
+    }
     stage('verify tools'){
      steps{
        sh '''
@@ -14,24 +26,25 @@ pipeline{
        '''
      }  
     }
-    stage('sq-scanner'){
-      steps{
-        script{
-          withSonarQubeEnv('SDPM_Sonarqube') {
-          
-            // Execute SonarQube scanner
-            def scannerHome = tool 'SonarQube_Scanner'
-            sh "${scannerHome}/bin/sonar-scanner"
-
-          }
-        }
-      }
-    }
-    stage('Clean all Docker containers'){
+    stage('Login Dockerhub'){
       steps{
         sh '''
-          docker-compose down -v
-          docker system prune -a --volumes -f
+          echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+        '''
+      }
+    }
+    stage('Build image for application'){
+      steps{
+        sh '''
+          docker-compose build
+        '''
+      }
+    }
+    stage('Rename && Push image to Dockerhub'){
+      steps{
+        sh '''
+          docker tag  611177209_ci4_service:latest zhunwei/611177209_ci4_service:latest
+          docker push zhunwei/611177209_ci4_service:latest
         '''
       }
     }
@@ -42,47 +55,67 @@ pipeline{
         '''
       }
     }
-    stage('Dependency installation'){
+    stage('Check Container'){
       steps{
         sh '''
-           docker-compose exec -T ci4_service sh -c "ls && composer install"
-           docker-compose restart
+           docker ps -a
+           docker images
         '''
       }
     }
-    stage('Environment Setting Up'){
-      steps{
-        script{
+    
+    // stage('Dependency installation'){
+    //   steps{
+    //     sh '''
+    //        docker-compose exec -T ci4_service sh -c "cd /app && composer install"
+    //        docker-compose restart
+    //     '''
+    //   }
+    // }
+    // stage('Environment Setting Up'){
+    //   steps{
+    //     script{
+    //       sh '''
+    //         cp app/env app/.env
+    //       '''
+    //     }
+    //   }
+    // }
+    // stage('Database migrate'){
+    //   steps{
+    //     sh '''
+    //        docker-compose exec -T ci4_service sh -c "php spark migrate"
+    //     '''
+    //   }
+    // }
+    // stage('Database seed'){
+    //   steps{
+    //     sh '''
+    //        sleep 2 
+    //        docker-compose exec -T ci4_service sh -c "php spark migrate"
+    //        docker-compose exec -T ci4_service sh -c "php spark db:seed Members"
+    //        docker-compose exec -T ci4_service sh -c "php spark db:seed TodoLists"
+    //        docker-compose up -d
+    //     '''
+    //   }
+    // }
+    // stage('Unit testing'){
+    //   steps{
+    //     sh '''
+    //        docker-compose exec -T ci4_service sh -c "vendor/bin/phpunit --log-junit build/logs/blogger_unitTest.xml"
+    //        ls
+    //     '''
+    //     junit 'app/build/logs/blogger_unitTest.xml'
+    //   }
+    // }
+   }
+   post {
+        always {
           sh '''
-            cp app/env app/.env
+          docker-compose down
+          docker system prune -a -f
+          docker logout
           '''
         }
       }
-    }
-    stage('Database migrate'){
-      steps{
-        sh '''
-           docker-compose exec -T ci4_service sh -c "php spark migrate"
-        '''
-      }
-    }
-    stage('Database seed'){
-      steps{
-        sh '''
-           sleep 2 
-           docker-compose exec -T ci4_service sh -c "php spark migrate"
-           docker-compose exec -T ci4_service sh -c "php spark db:seed Members"
-           docker-compose exec -T ci4_service sh -c "php spark db:seed TodoLists"
-           docker-compose up -d
-        '''
-      }
-    }
-    stage('Unit testing'){
-      steps{
-        sh '''
-           docker-compose exec -T ci4_service sh -c "vendor/bin/phpunit"
-        '''
-      }
-    }
-   }
 }
