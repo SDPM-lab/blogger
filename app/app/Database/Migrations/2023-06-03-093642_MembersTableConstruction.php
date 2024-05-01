@@ -4,12 +4,11 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Members extends Migration
+class MembersTableConstruction extends Migration
 {
     public function up()
     {
         $this->forge->addField([
-
             'm_key'           => [
                 'type'           => 'INT',
                 'constraint'     => 5,
@@ -50,6 +49,6 @@ class Members extends Migration
 
     public function down()
     {
-        //
+        $this->forge->dropTable('Members');
     }
 }
