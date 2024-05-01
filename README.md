@@ -39,7 +39,7 @@ database.default.port = 3306
 Command: `docker-compose exec blogger_service php spark migrate`
 
 ### 5. Database seed the default data.
-Command: `docker-compose exec blogger_service php spark db:seed Members`
+Command: `docker-compose exec blogger_service php spark db:seed MemberAndTodoConstructionCaller`
 
 Command: `docker-compose exec blogger_service php spark db:seed TodoLists`
 
