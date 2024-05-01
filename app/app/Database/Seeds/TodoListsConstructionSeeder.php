@@ -4,7 +4,7 @@ namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
-class TodoLists extends Seeder
+class TodoListsConstructionSeeder extends Seeder
 {
     public function run()
     {
