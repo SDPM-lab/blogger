@@ -109,8 +109,7 @@ class TodoController extends BaseController
         if ($createdKey === false) {
             return $this->fail("create failed.");
         } else {
-            // Call clear file cache function.
-            $this->clearFileCache($this->userData["key"]);
+            $this->clearCache($this->userData["key"]);
 
             return $this->respond([
                 "msg"  => "create successfully",
@@ -161,7 +160,7 @@ class TodoController extends BaseController
             return $this->fail("Update failed.");
         } else {
             // Call clear file cache function.
-            $this->clearFileCache($this->userData["key"]);
+            $this->clearCache($this->userData["key"]);
 
             return $this->respond([
                 "msg" => "Update successfully"
@@ -195,8 +194,7 @@ class TodoController extends BaseController
         if ($isDeleted === false) {
             return $this->fail("Delete failed.");
         } else {
-            // Call clear file cache function.
-            $this->clearFileCache($this->userData["key"]);
+            $this->clearCache($this->userData["key"]);
             
             return $this->respond([
                 "msg" => "Delete successfully"
@@ -205,19 +203,15 @@ class TodoController extends BaseController
     }
 
     /**
-     * 清除文件快取方法
+     * 清除 Redis 快取方法
      *
      * @param integer $userKey
      * @return void
      */
-    private function clearFileCache(int $userKey)
+    private function clearCache($userKey)
     {
-        // Get Cache Path.
-        $cachePath = WRITEPATH . 'cache/TodoListViewController_getDatatableData_' . sha1($userKey) . '.json';
-
-        if (file_exists($cachePath)) {
-            // Delete the cache file.
-            unlink($cachePath);
-        }
+        $cacheKey = 'TodoListViewController_getDatatableData_' . sha1($userKey);
+        $cache = \Config\Services::cache();
+        $cache->delete($cacheKey);
     }
 }

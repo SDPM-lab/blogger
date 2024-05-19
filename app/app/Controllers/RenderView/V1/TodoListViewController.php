@@ -36,14 +36,13 @@ class TodoListViewController extends BaseController
     {
         $user = $this->session->get("user");
 
-        // 設定快取文件的路徑
-        $cachePath = WRITEPATH . 'cache/TodoListViewController_getDatatableData_' . sha1($user['key']) . '.json'; 
+        $cacheKey = 'TodoListViewController_getDatatableData_' . sha1($user['key']); // 生成一個基於用戶 key 的唯一快取鍵
 
-        // 檢查快取文件是否存在且在有效時間內（例如快取持續 10 分鐘）
-        if (file_exists($cachePath) && (time() - filemtime($cachePath) < 600)) {
+        $cache = \Config\Services::cache(); // 獲取快取實例
 
-            // 讀取並返回快取資料
-            return json_decode(file_get_contents($cachePath), true);
+        // 嘗試從快取中獲取數據
+        if ($cachedData = $cache->get($cacheKey)) {
+            return json_decode($cachedData, true);
         }
 
         $table = new TablesIgniter();
@@ -61,8 +60,8 @@ class TodoListViewController extends BaseController
 
         $datatableData = $table->getDatatable();
 
-        // 將資料保存到快取文件中
-        file_put_contents($cachePath, json_encode($datatableData));
+        // 將數據保存到快取中
+        $cache->save($cacheKey, json_encode($datatableData), 600);
 
         return $datatableData;
     }
