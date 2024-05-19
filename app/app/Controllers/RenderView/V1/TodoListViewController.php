@@ -34,25 +34,37 @@ class TodoListViewController extends BaseController
      */
     public function getDatatableData()
     {
-        $table = new TablesIgniter();
-
-        $todoListsModel = new TodoListsModel();
-
         $user = $this->session->get("user");
 
-        $dataTableField = [
-            "t_key", "t_title", "t_content"
-        ];
+        // 設定快取文件的路徑
+        $cachePath = WRITEPATH . 'cache/TodoListViewController_getDatatableData_' . sha1($user['key']) . '.json'; 
+
+        // 檢查快取文件是否存在且在有效時間內（例如快取持續 10 分鐘）
+        if (file_exists($cachePath) && (time() - filemtime($cachePath) < 600)) {
+
+            // 讀取並返回快取資料
+            return json_decode(file_get_contents($cachePath), true);
+        }
+
+        $table = new TablesIgniter();
+        $todoListsModel = new TodoListsModel();
+
+        $dataTableField = ["t_key", "t_title", "t_content"];
 
         $table->setTable($todoListsModel->getAllTodoByUserBuilder($user["key"]))
-            ->setDefaultOrder("t_key", "DESC")
-            ->setSearch($dataTableField)
-            ->setOrder($dataTableField)
-            ->setOutput([
-                "t_key", "t_title", "t_content", $this->getDataTableActionButton()
-            ]);
+              ->setDefaultOrder("t_key", "DESC")
+              ->setSearch($dataTableField)
+              ->setOrder($dataTableField)
+              ->setOutput([
+                  "t_key", "t_title", "t_content", $this->getDataTableActionButton()
+              ]);
 
-        return $table->getDatatable();
+        $datatableData = $table->getDatatable();
+
+        // 將資料保存到快取文件中
+        file_put_contents($cachePath, json_encode($datatableData));
+
+        return $datatableData;
     }
 
     /**
