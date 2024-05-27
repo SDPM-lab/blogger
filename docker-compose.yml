@@ -15,7 +15,7 @@ services:
             - PHP_UPLOAD_MAX_FILESIZE=20M
         volumes:
             - './app:/app'
-    ci4_DB:
+    blogger_DB:
         image: mysql:5.7
         # platform: linux/x86_64
         environment:
@@ -23,7 +23,7 @@ services:
             MYSQL_ROOT_PASSWORD: root
         ports:
             - "3306:3306"
-    ci4_test_DB:
+    blogger_test_DB:
         image: mysql:5.7
         # platform: linux/x86_64
         environment:
@@ -31,3 +31,8 @@ services:
             MYSQL_ROOT_PASSWORD: root
         ports:
             - "3307:3306"
+    blogger_redis:
+        image: redis:latest
+        container_name: blogger_redis
+        ports:
+            - "6379:6379"
