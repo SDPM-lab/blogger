@@ -109,6 +109,8 @@ class TodoController extends BaseController
         if ($createdKey === false) {
             return $this->fail("create failed.");
         } else {
+            $this->clearCache($this->userData["key"]);
+
             return $this->respond([
                 "msg"  => "create successfully",
                 "data" => $createdKey
@@ -157,6 +159,9 @@ class TodoController extends BaseController
         if ($isUpdated === false) {
             return $this->fail("Update failed.");
         } else {
+            // Call clear file cache function.
+            $this->clearCache($this->userData["key"]);
+
             return $this->respond([
                 "msg" => "Update successfully"
             ]);
@@ -189,9 +194,24 @@ class TodoController extends BaseController
         if ($isDeleted === false) {
             return $this->fail("Delete failed.");
         } else {
+            $this->clearCache($this->userData["key"]);
+            
             return $this->respond([
                 "msg" => "Delete successfully"
             ]);
         }
+    }
+
+    /**
+     * 清除 Redis 快取方法
+     *
+     * @param integer $userKey
+     * @return void
+     */
+    private function clearCache($userKey)
+    {
+        $cacheKey = 'TodoListViewController_getDatatableData_' . sha1($userKey);
+        $cache = \Config\Services::cache();
+        $cache->delete($cacheKey);
     }
 }
