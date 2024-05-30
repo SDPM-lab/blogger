@@ -10,7 +10,7 @@ A blog management project based on CodeIgniter4 PHP framework.
 Command: `docker-compose up`
 
 ### 2. Install the dependency package with composer.
-Command: `docker-compose exec ci4_service composer install`
+Command: `docker-compose exec blogger_service composer install`
 
 ### 3. Copy the `env` file to `.env` file and modify it.
 From `env` file
