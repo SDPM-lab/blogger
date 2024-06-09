@@ -26,8 +26,8 @@ From `env` file
 
 To `.env` file
 ```
-database.default.hostname = ci4_DB
-database.default.database = example
+database.default.hostname = blogger_DB
+database.default.database = blogger
 database.default.username = root
 database.default.password = root
 database.default.DBDriver = MySQLi
@@ -41,7 +41,7 @@ Command: `docker-compose exec blogger_service php spark migrate`
 ### 5. Database seed the default data.
 Command: `docker-compose exec blogger_service php spark db:seed MemberAndTodoConstructionCaller`
 
-Command: `docker-compose exec blogger_service php spark db:seed TodoLists`
+Command: `docker-compose exec blogger_service php spark db:seed MemberAndTodoV1ExtendCaller`
 
 ### 6. Enjoy
 Visit `http://localhost:8080/`
