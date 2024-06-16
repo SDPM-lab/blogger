@@ -3,6 +3,7 @@
 namespace App\Models\V1;
 
 use CodeIgniter\Model;
+use App\Entities\MembersEntity;
 
 class MembersModel extends Model
 {
@@ -10,7 +11,7 @@ class MembersModel extends Model
     protected $table            = 'Members';
     protected $primaryKey       = 'm_key';
     protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
+    protected $returnType       = MembersEntity::class;
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [

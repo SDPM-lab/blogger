@@ -44,7 +44,7 @@ $routes->get(
     ['filter' => 'AuthFilter']
 );
 
-$routes->get('/profile', 'RenderView\V1\\MembersViewController::profilePage', ['filter' => 'ViewAuthFilter']);
+$routes->get('/profile', 'RenderView\V1\MembersViewController::profilePage', ['filter' => 'ViewAuthFilter']);
 
 $routes->group('api/v1', static function (\CodeIgniter\Router\RouteCollection $routes) {    
     // Create a new user.
@@ -64,7 +64,7 @@ $routes->group('api/v1', static function (\CodeIgniter\Router\RouteCollection $r
     ]);
 
     $routes->resource('users', [
-        'controller'  => 'Api\V1\UsersController',
+        'controller'  => 'Api\V1\UsersController_ORM',
         'only'        => ['show', 'update'],
         'filter'      => 'AuthFilter',
         'placeholder' => '(:num)',
