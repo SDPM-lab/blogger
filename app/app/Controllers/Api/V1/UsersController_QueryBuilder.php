@@ -8,10 +8,14 @@ use Psr\Log\LoggerInterface;
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\V1\MembersModel;
+use App\Entities\MembersEntity;
 
 class UsersController_QueryBuilder extends BaseController
 {
     use ResponseTrait;
+    protected MembersModel $membersModel;
+    protected $db;
+    protected $builder;
 
     /**
      * Member model.
@@ -19,11 +23,14 @@ class UsersController_QueryBuilder extends BaseController
      *
      * @var MembersModel
      */
-    protected MembersModel $membersModel;
-
     public function __construct()
     {
         $this->membersModel = new MembersModel();
+        $this->db = \Config\Database::connect();
+        if (!$this->db->connect()) {
+            die('Database connection failed.');
+        }
+        $this->builder = $this->db->table('Members');
     }
 
     /**
@@ -38,11 +45,9 @@ class UsersController_QueryBuilder extends BaseController
             return $this->failNotFound("Enter the member key");
         }
 
-        // Find the data from database using Query Builder.
-        $db = \Config\Database::connect();
-        $builder = $db->table('members');
-        $builder->where('m_key', $key);
-        $user = $builder->get()->getRowArray();
+        // Find the data from database using Query Builder.      
+        $this->builder->where('m_key', $key);
+        $user = $this->builder->get()->getRowArray();
 
         if ($user === null) {
             return $this->failNotFound("User is not found.");
@@ -70,28 +75,27 @@ class UsersController_QueryBuilder extends BaseController
     public function update(?int $key = null)
     {
         // Get the data from request
-        $data = $this->request->getJSON();
-        $password = $data->password ?? null;
+        $data = $this->request->getJSON(true);
+        $password = $data['password'] ?? null;
 
         if ($key === null) {
             return $this->failNotFound("Key is not found.");
         }
 
         // Get the will update data.
-        $db = \Config\Database::connect();
-        $builder = $db->table('members');
-        $builder->where('m_key', $key);
-        $willUpdateData = $builder->get()->getRowArray();
+        
+        $this->builder->where('m_key', $key);
+        $willUpdateData = $this->builder->get()->getRowArray();
 
         if ($willUpdateData === null) {
             return $this->failNotFound("This data is not found.");
         }
         if ($password !== null) {
-            $willUpdateData["m_password"] = sha1($password);
+            $willUpdateData["m_password"] = password_hash($password, PASSWORD_DEFAULT);
         }
 
         // Do update action.
-        $isUpdated = $builder->where('m_key', $key)->update($willUpdateData);
+        $isUpdated = $this->builder->where('m_key', $key)->update($willUpdateData);
 
         if ($isUpdated === false) {
             return $this->fail("Update failed.");

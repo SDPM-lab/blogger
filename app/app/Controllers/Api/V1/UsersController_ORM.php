@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\V1\MembersModel;
+use App\Entities\MembersEntity;
 
 class UsersController_ORM extends BaseController
 {
@@ -60,6 +61,10 @@ class UsersController_ORM extends BaseController
      */
     public function update(?int $key = null)
     {
+        if ($key === null) {
+            return $this->fail("User key is required.", 400);
+        }
+
         // Get the data from request.
         $data = $this->request->getJSON(true);
 
@@ -70,20 +75,12 @@ class UsersController_ORM extends BaseController
         }
 
         // Verify m_password exists
-        if (empty($data['m_password'])) {
+        if (empty($data['password'])) {
             return $this->fail("Password data is not found.", 400);
-        }
-
-        if (isset($data['m_account'])) {
-            $membersEntity->m_account = $data['m_account'];
-        }
-    
-        if (isset($data['m_name'])) {
-            $membersEntity->m_name = $data['m_name'];
-        }
+        } 
 
         // Do update action.
-        $membersEntity->m_password = password_hash($data['m_password'], PASSWORD_DEFAULT);
+        $membersEntity->m_password = password_hash($data['password'], PASSWORD_DEFAULT);
 
         if($membersEntity->m_password == null){
             return $this->fail("Password data is not found.",400);
@@ -94,7 +91,7 @@ class UsersController_ORM extends BaseController
 
         if($result){
             return $this->respond([
-                "msg" => "Success  updated",
+                "msg" => "Update successfully",
                 "res" => $result
             ]);
         }else{

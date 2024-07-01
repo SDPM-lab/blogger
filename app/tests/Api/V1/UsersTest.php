@@ -15,14 +15,17 @@ class UsersTest extends DatabaseTestCase
      */
     protected array $sessionData;
 
-    // For Seeds
-    protected $seedOnce = false;
-    protected $seed     = 'Members';
-    protected $basePath = APPPATH . DIRECTORY_SEPARATOR . 'Database' . DIRECTORY_SEPARATOR;
-
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->sessionData = [
+            "user" => [
+                "account"  => "example_account",
+                'name'     => 'Example User',
+                "key"      => 1
+            ]
+        ];
     }
 
     public function tearDown(): void
@@ -33,94 +36,140 @@ class UsersTest extends DatabaseTestCase
         $this->db->query("ALTER TABLE Members AUTO_INCREMENT = 1");
     }
 
-    public function testDatabase()
-    {
-        $membersModel = new MembersModel();
-        
-        // Check whether database seed and migrate successfully.
-        $data = $membersModel->findAll();
-
-        $this->assertNotEmpty($data);
-    }
-
-    public function testShowUserSuccessfully(): void
+    public function testShowUserSuccessfully_orm(): void
     {
         $createData = [
-            "account"  => "example_account",
-            "password" => "example_password",
-            "name"     => "Example User"
+            "m_account"  => "example_account",
+            "m_password" => password_hash("example_password", PASSWORD_DEFAULT),
+            "m_name"     => "Example User",
+            "m_key"      => 1,
         ];
 
         $membersModel = new MembersModel();
 
-        $createdKey = $membersModel->insert([
-            "m_account"  => $createData["account"],
-            "m_password" => sha1($createData["password"]),
-            "m_name"     => $createData["name"],
-            "m_key"      => 1,
-        ]);
+        $createdKey = $membersModel->insert($createData);
 
         $this->assertEquals(1, $createdKey);
 
         $results = $this->withSession($this->sessionData)
-                        ->get("api/v1/users/1");
+                        ->get("api/v1/users_orm/1");
 
         $returnData = json_decode($results->getJSON());
 
-        $excepted = [
+        $expected = [
             "account" => "example_account",
             "name"    => "Example User",
         ];
 
-        $this->assertEquals($excepted, (array)$returnData->data);
+        $this->assertEquals($expected, (array)$returnData->data);
     }
 
-    public function testUpdateUserSuccessfully()
+    public function testUpdateUserSuccessfully_orm()
     {
         $createData = [
-            "account"  => "example_account",
-            "password" => "example_password",
-            "name"     => "Example User"
+            "m_account"  => "example_account",
+            "m_password" => password_hash("example_password", PASSWORD_DEFAULT),
+            "m_name"     => "Example User",
+            "m_key"      => 1,
         ];
 
         $membersModel = new MembersModel();
 
-        $createdKey = $membersModel->insert([
-            "m_account"  => $createData["account"],
-            "m_password" => sha1($createData["password"]),
-            "m_name"     => $createData["name"],
-            "m_key"      => 1,
-        ]);
+        $createdKey = $membersModel->insert($createData);
 
         $this->assertEquals(1, $createdKey);
 
-        $this->seeInDatabase('Members', [
-            "m_account"  => $createData["account"],
-            "m_password" => $createData["password"],
-            "m_name"     => $createData["name"],
-            "m_key"      => 1
-        ]);
-
         $updatedData = [
-            "password" => "modified_password",
+            "password" => "modified_password"
         ];
 
         $results = $this->withSession($this->sessionData)
                         ->withBodyFormat('json')
-                        ->put("api/v1/users/1", $updatedData);
+                        ->put("api/v1/users_orm/1", $updatedData);
 
         $results->assertStatus(200);
 
-        $this->seeInDatabase('Members', [
-            "m_password" => $updatedData["password"],
-        ]);
+        // 從資料庫中獲取更新後的用戶資料
+        $updatedUser = $membersModel->find(1);
+
+        // 使用 password_verify 檢查更新後的密碼是否正確加密
+        $this->assertTrue(password_verify("modified_password", $updatedUser->m_password));
 
         $returnData = json_decode($results->getJSON());
 
-        $excepted = [
-            "msg" => "Update successfully"
+        $expected = [
+            "msg" => "Update successfully",
+            "res" => true
         ];
 
-        $this->assertEquals($excepted, (array)$returnData);
+        $this->assertEquals($expected, (array)$returnData);
+    }
+
+    public function testShowUserSuccessfully_query_builder(): void
+    {
+        $createData = [
+            "m_account"  => "example_account",
+            "m_password" => password_hash("example_password", PASSWORD_DEFAULT),
+            "m_name"     => "Example User",
+            "m_key"      => 1,
+        ];
+
+        $membersModel = new MembersModel();
+
+        $createdKey = $membersModel->insert($createData);
+
+        $this->assertEquals(1, $createdKey);
+
+        $results = $this->withSession($this->sessionData)
+                        ->get("api/v1/users_query_builder/1");
+
+        $returnData = json_decode($results->getJSON());
+
+        $expected = [
+            "account" => "example_account",
+            "name"    => "Example User",
+        ];
+
+        $this->assertEquals($expected, (array)$returnData->data);
+    }
+
+    public function testUpdateUserSuccessfully_query_builder()
+    {
+        $createData = [
+            "m_account"  => "example_account",
+            "m_password" => password_hash("example_password", PASSWORD_DEFAULT),
+            "m_name"     => "Example User",
+            "m_key"      => 1,
+        ];
+
+        $membersModel = new MembersModel();
+
+        $createdKey = $membersModel->insert($createData);
+
+        $this->assertEquals(1, $createdKey);
+
+        $updatedData = [
+            "password" => "modified_password"
+        ];
+
+        $results = $this->withSession($this->sessionData)
+                        ->withBodyFormat('json')
+                        ->put("api/v1/users_query_builder/1", $updatedData);
+
+        $results->assertStatus(200);
+
+        // 從資料庫中獲取更新後的用戶資料
+        $updatedUser = $membersModel->find(1);
+
+        // 使用 password_verify 檢查更新後的密碼是否正確加密
+        $this->assertTrue(password_verify("modified_password", $updatedUser->m_password));
+
+        $returnData = json_decode($results->getJSON());
+
+        $expected = [
+            "msg" => "Update successfully",
+        ];
+
+        $this->assertEquals($expected, (array)$returnData);
     }
 }

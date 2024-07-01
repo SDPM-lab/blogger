@@ -48,8 +48,8 @@ Visit `http://localhost:8080/`
 
 ## Execute the unit test
 ### 0. If you did't install the phpunit before
-Command: `docker-compose exec ci4_service composer require --dev phpunit/phpunit ^9.6`
+Command: `docker-compose exec blogger_service composer require --dev phpunit/phpunit ^9.6`
 
 ### 1. Execute the unit test
-Command: `docker-compose exec ci4_service ./vendor/bin/phpunit`
+Command: `docker-compose exec blogger_service ./vendor/bin/phpunit`
 

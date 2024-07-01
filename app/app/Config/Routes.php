@@ -63,8 +63,15 @@ $routes->group('api/v1', static function (\CodeIgniter\Router\RouteCollection $r
         'todo'        => 1,
     ]);
 
-    $routes->resource('users', [
+    $routes->resource('users_orm', [
         'controller'  => 'Api\V1\UsersController_ORM',
+        'only'        => ['show', 'update'],
+        'filter'      => 'AuthFilter',
+        'placeholder' => '(:num)',
+    ]);
+
+    $routes->resource('users_query_builder', [
+        'controller'  => 'Api\V1\UsersController_QueryBuilder',
         'only'        => ['show', 'update'],
         'filter'      => 'AuthFilter',
         'placeholder' => '(:num)',
