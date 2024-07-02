@@ -44,6 +44,8 @@ $routes->get(
     ['filter' => 'AuthFilter']
 );
 
+$routes->get('/profile', 'RenderView\V1\MembersViewController::profilePage', ['filter' => 'ViewAuthFilter']);
+
 $routes->group('api/v1', static function (\CodeIgniter\Router\RouteCollection $routes) {    
     // Create a new user.
     $routes->post('user', 'Api\V1\MembersController::signUp');
@@ -59,6 +61,20 @@ $routes->group('api/v1', static function (\CodeIgniter\Router\RouteCollection $r
         'filter'      => 'AuthFilter',
         'placeholder' => '(:num)',
         'todo'        => 1,
+    ]);
+
+    $routes->resource('users_orm', [
+        'controller'  => 'Api\V1\UsersController_ORM',
+        'only'        => ['show', 'update'],
+        'filter'      => 'AuthFilter',
+        'placeholder' => '(:num)',
+    ]);
+
+    $routes->resource('users_query_builder', [
+        'controller'  => 'Api\V1\UsersController_QueryBuilder',
+        'only'        => ['show', 'update'],
+        'filter'      => 'AuthFilter',
+        'placeholder' => '(:num)',
     ]);
 });
 

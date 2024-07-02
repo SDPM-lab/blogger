@@ -10,7 +10,7 @@ class MembersTest extends DatabaseTestCase
 
     // For Seeds
     protected $seedOnce = false;
-    protected $seed     = 'Members';
+    protected $seed     = 'MembersConstructionSeeder';
     protected $basePath = APPPATH . DIRECTORY_SEPARATOR . 'Database' . DIRECTORY_SEPARATOR;
 
     public function setUp(): void
@@ -99,7 +99,7 @@ class MembersTest extends DatabaseTestCase
 
         $this->seeInDatabase("Members", [
             "m_account"  => "example_account_2",
-            "m_password" => sha1("example_password_2"),
+            "m_password" => password_hash("example_password_2", PASSWORD_DEFAULT),
             "m_name"     => "Example User 2"
         ]);
     }

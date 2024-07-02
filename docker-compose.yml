@@ -1,9 +1,9 @@
-version: "3"
+# version: "3"
 
 services:
     blogger_service:
         image: webdevops/php-nginx-dev:8.1
-        # platform: linux/x86_64
+        platform: linux/amd64
         ports:
             - 8080:80
         working_dir: /app
@@ -17,7 +17,7 @@ services:
             - './app:/app'
     blogger_DB:
         image: mysql:5.7
-        # platform: linux/x86_64
+        platform: linux/amd64
         environment:
             MYSQL_DATABASE: blogger
             MYSQL_ROOT_PASSWORD: root
@@ -25,7 +25,7 @@ services:
             - "3306:3306"
     blogger_test_DB:
         image: mysql:5.7
-        # platform: linux/x86_64
+        platform: linux/amd64
         environment:
             MYSQL_DATABASE: blogger
             MYSQL_ROOT_PASSWORD: root
@@ -33,6 +33,7 @@ services:
             - "3307:3306"
     blogger_redis:
         image: redis:latest
+        platform: linux/amd64
         container_name: blogger_redis
         ports:
             - "6379:6379"

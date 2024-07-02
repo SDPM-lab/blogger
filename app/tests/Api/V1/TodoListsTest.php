@@ -24,9 +24,9 @@ class TodoListsTest extends DatabaseTestCase
 
         $data = [
             [
-                'm_name'    => 'Example User',
-                'm_account' => 'example_account',
-                'm_password' => sha1('example_password'),
+                'm_name'     => 'Example User',
+                'm_account'  => 'example_account',
+                'm_password' => password_hash("example_password", PASSWORD_DEFAULT),
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
